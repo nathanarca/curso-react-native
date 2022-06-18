@@ -1,0 +1,20 @@
+{
+  "Print to console": {
+    "scope": "javascript,typescript",
+    "prefix": "log",
+    "body": [
+      "import React from 'react'",
+      "import { View, Text } from 'react-native'",
+      "import estilo from './estilo'",
+      "",
+      "export default props => {",
+      "  return (",
+      "    <View>",
+      "      <Text>{props.text}</Text>",
+      "    </View>",
+      "  )",
+      "}"
+    ],
+    "description": "Log output to console"
+  }
+}
