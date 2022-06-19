@@ -6,27 +6,50 @@ import Button from "./src/components/Button";
 
 import Display from "./src/components/Display";
 
+const initialState = {
+  displayValue: "0",
+  clearDisplay: false,
+  operation: null,
+  values: [0, 0],
+  current: 0
+};
+
 export default class App extends React.Component {
 
-  state = {
-    displayValue: "0"
-  }
+  state = { ...initialState };
 
   addDigit = n => {
-    const { displayValue } = this.state;
+    
+    
+    if (n === "." && this.state.displayValue.includes(".")) return;
 
-    if (displayValue === "0") {
-      this.setState({ displayValue: n });
-    } else {
-      this.setState({ displayValue: displayValue + n });
+    const clearDisplay = this.state.displayValue === "0" || this.state.clearDisplay;
+    
+    const currentValue = clearDisplay && n !== "." ? "" : this.state.displayValue;
+
+    const displayValue = currentValue + n;
+
+    this.setState({ displayValue, clearDisplay: false });
+
+    if (n !== ".") {
+
+      const newValue = parseFloat(displayValue);
+
+      const values = [...this.state.values];
+
+      values[this.state.current] = newValue;
+
+      this.setState({ values });
+
     }
+
   }
 
-  clearDisplay = () => {
-    this.setState({ displayValue: "0" });
+  clearMemory = () => {
+    this.setState({ ...initialState });
   }
 
-  addOperation = operation => {
+  setOperation = operation => {
     const { displayValue } = this.state;
 
     const newValue = parseFloat(displayValue);
@@ -45,23 +68,23 @@ export default class App extends React.Component {
       <SafeAreaView style={style.container}>
         <Display value={this.state.displayValue} />
         <View style={style.buttons}>
-          <Button label="AC" triple onPress={this.clearDisplay} />
-          <Button label="/" operation onPress={this.addOperation} />
+          <Button label="AC" triple onPress={this.clearMemory} />
+          <Button label="/" operation onPress={this.setOperation} />
           <Button label="7" onPress={this.addDigit} />
           <Button label="8" onPress={this.addDigit} />
           <Button label="9" onPress={this.addDigit} />
-          <Button label="*" operation onPress={this.addOperation} />
+          <Button label="*" operation onPress={this.setOperation} />
           <Button label="4" onPress={this.addDigit} />
           <Button label="5" onPress={this.addDigit} />
           <Button label="6" onPress={this.addDigit} />
-          <Button label="-" operation onPress={this.addOperation} />
+          <Button label="-" operation onPress={this.setOperation} />
           <Button label="1" onPress={this.addDigit} />
           <Button label="2" onPress={this.addDigit} />
           <Button label="3" onPress={this.addDigit} />
-          <Button label="+" operation onPress={this.addOperation} />
+          <Button label="+" operation onPress={this.setOperation} />
           <Button label="0" double onPress={this.addDigit} />
           <Button label="." onPress={this.addDigit} />
-          <Button label="=" operation onPress={this.addOperation} />
+          <Button label="=" operation onPress={this.setOperation} />
         </View>
       </SafeAreaView>
     );
