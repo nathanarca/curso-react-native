@@ -1,19 +1,22 @@
 {
   "Print to console": {
     "scope": "javascript,typescript",
-    "prefix": "log",
+    "prefix": "compfunc",
     "body": [
       "import React from 'react'",
       "import { View, Text } from 'react-native'",
       "import estilo from './estilo'",
       "",
       "export default props => {",
-      "  return (",
-      "    <View>",
-      "      <Text>{props.text}</Text>",
-      "    </View>",
-      "  )",
-      "}"
+      "    return (",
+      "        <View>",
+      "            <Text>",
+      "                $1",
+      "            </Text>",
+      "        </View>",
+      "    )",
+      "}",
+      "$2"
     ],
     "description": "Log output to console"
   }
