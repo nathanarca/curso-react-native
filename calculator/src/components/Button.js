@@ -8,15 +8,16 @@ const styles = StyleSheet.create({
         height: Dimensions.get("window").height / 8,
         width: Dimensions.get("window").width / 4,
         padding: 20,
-        backgroundColor: "#f0f0f0",
+        backgroundColor: "#080808",
         textAlign: "center",
         textAlignVertical: "center",
         borderWidth: 1,
-        borderColor: "#888"
+        color: "#fff",
+        borderColor: "#151515",
     },
     operationButton: {
-        color: "#fff",
-        backgroundColor: "#ff9800"
+        color: "darkorange",
+        backgroundColor: "#080808"
     },
     buttonDouble: {
         width: (Dimensions.get("window").width / 4) * 2

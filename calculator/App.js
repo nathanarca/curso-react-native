@@ -19,12 +19,11 @@ export default class App extends React.Component {
   state = { ...initialState };
 
   addDigit = n => {
-    
-    
-    if (n === "." && this.state.displayValue.includes(".")) return;
 
     const clearDisplay = this.state.displayValue === "0" || this.state.clearDisplay;
-    
+
+    if (n === "." && clearDisplay && this.state.displayValue.includes(".")) return;
+
     const currentValue = clearDisplay && n !== "." ? "" : this.state.displayValue;
 
     const displayValue = currentValue + n;
@@ -50,14 +49,35 @@ export default class App extends React.Component {
   }
 
   setOperation = operation => {
-    const { displayValue } = this.state;
 
-    const newValue = parseFloat(displayValue);
+    if (this.state.current === 0) {
 
-    const operations = ["/", "*", "-", "+"];
+      this.setState({ operation, current: 1, clearDisplay: true });
 
-    if (operations.includes(operation)) {
-      this.setState({ displayValue: `${newValue} ${operation}` });
+    } else {
+
+      const equals = operation === "=";
+
+      const values = [...this.state.values];
+
+      try {
+
+        values[0] = eval(`${values[0]} ${this.state.operation} ${values[1]}`);
+
+      } catch (e) {
+        values[0] = this.state.values[0];
+      }
+
+      values[1] = 0;
+
+      this.setState({
+        displayValue: `${values[0]}`,
+        operation: equals ? null : operation,
+        current: equals ? 0 : 1,
+        clearDisplay: true,
+        values
+      });
+
     }
   }
 
