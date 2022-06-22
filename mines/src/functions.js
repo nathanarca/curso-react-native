@@ -114,6 +114,10 @@ const pendding = field => (field.mined && !field.flagged) || (!field.mined && !f
 
 const wonGame = board => fields(board).filter(pendding).length === 0;
 
+const penddingFields = board => fields(board).filter(pendding).length;
+
+const flaggedUsed = board => fields(board).filter(field => field.flagged).length;
+
 const showMines = board => fields(board).filter(field => field.mined).forEach(field => field.opened = true);
 
 const invertFlag = (board, row, column) => {
@@ -127,6 +131,8 @@ export {
     openField,
     hadExplosion,
     wonGame,
+    flaggedUsed,
     showMines,
-    invertFlag
+    invertFlag,
+    penddingFields
 }

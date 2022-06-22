@@ -12,7 +12,9 @@ import { StyleSheet, View, Text, Alert, TouchableWithoutFeedback } from 'react-n
 
 import params from './src/params';
 
-import Field from './src/components/Field';
+import Header from './src/components/Header';
+
+import LevelSelection from './src/screens/LevelSelection';
 
 import MineFields from './src/components/MineFields';
 
@@ -23,7 +25,9 @@ import {
   hadExplosion,
   wonGame,
   invertFlag,
-  showMines
+  showMines,
+  flaggedUsed,
+  penddingFields
 } from './src/functions';
 
 export default class App extends React.Component {
@@ -48,7 +52,8 @@ export default class App extends React.Component {
     return {
       board: createMineBoard(rows, cols, this.minesAmount()),
       won: false,
-      lost: false
+      lost: false,
+      showLevelSelection: false
     }
 
   }
@@ -92,9 +97,23 @@ export default class App extends React.Component {
     this.setState({ board, won });
   }
 
+  onLevelSelect = (level) => {
+    params.difficultyLevel = level;
+    this.setState(this.createState());
+  }
+
   render() {
     return (
       <View style={style.container} >
+        <LevelSelection
+          isVisible={this.state.showLevelSelection}
+          onLevelSelect={this.onLevelSelect}
+          onCancel={() => this.setState({ showLevelSelection: false })}
+        />
+        <Header
+          onFlagPress={() => this.setState({ showLevelSelection: true })}
+          flagsLeft={`${this.minesAmount() - flaggedUsed(this.state.board)}/${penddingFields(this.state.board)}`}
+          onNewGame={() => this.setState(this.createState())} />
         <View style={style.board}>
           <MineFields onSelectField={this.onSelectField} onOpenField={this.onOpenField} board={this.state.board} />
         </View>
